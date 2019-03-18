@@ -28,3 +28,16 @@ io.on('connection', function(socket){
     console.log('message: ' + msg);
   });
 });
+
+// broadcasting
+io.emit('some event', { for: 'everyone' });
+
+io.on('connection', function(socket){
+  socket.broadcast.emit('hi');
+});
+
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
