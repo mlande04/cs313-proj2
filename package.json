@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
+  "name": "chat-app",
   "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "A simple chat app using node.js, sockets.io, and express",
   "engines": {
     "node": "10.x"
   },
