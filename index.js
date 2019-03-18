@@ -1,41 +1,25 @@
-const app = require('express')();
-const path = require('path')
-const PORT = process.env.PORT || 5000
-const io = require('socket.io')(PORT);
+// This is the main file of our chat app. It initializes a new 
+// express.js instance, requires the config and routes files
+// and listens on a port. Start the application by running
+// 'node app.js' in your terminal
 
-/*
-const http = require('http')(PORT);
-http.createServer(function(req, res){
-	res.writeHead(200, {"Content-type": "text/plain"})
-	res.end("Hello World\n")
-}).listen(PORT)
-*/
 
-//app.use(express.static(path.join(__dirname, 'public')))
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
-});
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+var express = require('express'),
+	app = express();
 
-// Heroku setting for long polling - for using Socket.IO server object
-/*io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
-*/
+// This is needed if the app is run on heroku:
 
-io.on('connection', function(socket) {
-   console.log('a user connected');
-   socket.on('disconnect', function() {
-	   console.log('a user disconnected');
-   });
-});
+var port = process.env.PORT || 8080;
 
-io.on('connection', function(socket) {
-	socket.on('chat message', function(msg) {
-		io.emit('chat message', msg);
-		console.log('message: ' + msg);
-	});
-});
+// Initialize a new socket.io object. It is bound to 
+// the express app, which allows them to coexist.
+
+var io = require('socket.io').listen(app.listen(port));
+
+// Require the configuration and the routes files, and pass
+// the app and io as arguments to the returned functions.
+
+require('./config')(app, io);
+require('./routes')(app, io);
+
+console.log('Your application is running on http://localhost:' + port);
