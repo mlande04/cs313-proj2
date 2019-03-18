@@ -20,10 +20,11 @@ app.get('/', function(req, res) {
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 // Heroku setting for long polling - for using Socket.IO server object
-io.configure(function () { 
+/*io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
 });
+*/
 
 io.on('connection', function(socket) {
    console.log('a user connected');
