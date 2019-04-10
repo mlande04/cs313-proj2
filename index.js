@@ -80,7 +80,6 @@ io.on('connection', function(socket){
 function handleLogin(request, response) {
 	var result = {success: false};
 
-	// We should do better error checking here to make sure the parameters are present
 	if (request.body.username == "admin" && request.body.password == "password") {
 		request.session.user = request.body.username;
 		result = {success: true};
